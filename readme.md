@@ -1,6 +1,10 @@
 
 ## raster R package 
 
+NOTE: this project is effectively in stasis, see the Issues for a raw list of things to fix in raster, but the raster package will be maintained by the original author. 
+
+mdsumner 2017-10-26
+
 The source of the 'raster' package lives on R-forge
 
 https://r-forge.r-project.org/projects/raster/
