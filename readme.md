@@ -16,21 +16,17 @@ My wishlist
 
 
 
+## This is a clone of the clone
+
+Please use this repo to 
+
+* review the issues listed against your own experiences
+* ignore the mirror of the sources, they are stale and won't be maintained
+
 
 The source of the 'raster' package lives on R-forge
 
 https://r-forge.r-project.org/projects/raster/
 
 There is a Github clone on r-forge here: https://github.com/rforge
-
-## This is a clone of the clone
-
-Please use this repo to 
-
-* report issues with raster and discuss workarounds and solutions
-* craft PRs that fix individual issues
-
-The hope is to provide a single place where raster can be discussed, and to provide oversight of disparate individuals working on solutions. 
-
-I don't know what's next, but for now I don't see a problem in creating branches here that could be merged back to r-forge. Obviously it would be easier if the package was moved from r-forge, and I've asked if I can do that but got no answer. I (@mdsumner) have commit access to the r-forge repo, but there's little point in doing that if there won't be updates sent to CRAN. At some point someone will have to fork (rename) the thing, or perhaps it will get orphaned from CRAN and then someone can take over. But for now, we're in limbo more than a year or so.  
 
