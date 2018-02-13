@@ -3,10 +3,6 @@
 # Version 1.0
 # Licence GPL v3
 
-if (!isGeneric("trim")) {
-	setGeneric("trim", function(x, ...)
-		standardGeneric("trim"))
-}	
 
 
 setMethod('trim', signature(x='character'), 
@@ -68,6 +64,7 @@ function(x, padding=0, values=NA, filename='', ...) {
 	ncl <- nc * nlayers(x)
 	
 	cnt <- 0
+
 	for (r in 1:nr) {
 		v <- getValues(x, r)
 		if (sum(v %in% values) < ncl) {
@@ -78,9 +75,11 @@ function(x, padding=0, values=NA, filename='', ...) {
 	if ( cnt == nr) { stop('only NA values found') }
 	firstrow <- min(max(r-padding, 1), nr)
 	
-	for (r in nr:1) {
+	for (r in nr:firstrow) {
 		v <- getValues(x, r)
-		if (sum(v %in% values) < ncl) { break }
+		if (sum(v %in% values) < ncl) { 
+			break 
+		}
 	}
 	lastrow <- max(min(r+padding, nr), 1)
 	
@@ -96,7 +95,7 @@ function(x, padding=0, values=NA, filename='', ...) {
 	}
 	firstcol <- min(max(c-padding, 1), nc) 
 	
-	for (c in nc:1) {
+	for (c in nc:firstcol) {
 		v <- getValuesBlock(x, 1 ,nrow(x), c, 1)
 		if (sum(v %in% values) < nrl) { break }
 	}

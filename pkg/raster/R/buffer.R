@@ -41,7 +41,7 @@ if (!isGeneric('buffer')) {
 			#r <- .Call("geodesic", as.double(p[,1]), as.double(p[,2]), as.double(p[,3]), as.double(p[,4]), as.double(a), as.double(f), PACKAGE='raster')
 			#pols[[i]] <- matrix(r, ncol=3, byrow=TRUE)[, 1:2]
 			
-			r <- .Call("raster_dest_point", p, TRUE, a, f, PACKAGE='raster')
+			r <- .Call("_raster_dest_point", p, TRUE, a, f, PACKAGE='raster')
 			pols[[i]] <- r[,1:2]						
 		}
 	} else {
@@ -104,7 +104,9 @@ function(x, width=0, filename='', doEdge=FALSE, ...) {
 	}
 	
 	if (class(pts) == "try-error") {
-		return( .distanceRows(x, filename=filename, ...) )
+		d <- .distanceRows(x, filename=filename, ...) 
+		d <- reclassify(d, rbind(c(-1,width, 1), c(width, Inf, NA)))
+		return(d)
 	}
 	if (nrow(pts) == 0) {
 		stop('RasterLayer has no NA cells (for which to compute a distance)')
@@ -120,20 +122,21 @@ function(x, width=0, filename='', doEdge=FALSE, ...) {
 	                                                                        
 	if (canProcessInMemory(out, 6)) {
 		pb <- pbCreate(4, label='buffer', ...)
-		x <- values(x)
-		i <- which(is.na(x))
-		if (length(i) < 1) {
+		v <- values(x)
+		i <- is.na(v)
+		if (!any(i)) {
 			stop('raster has no NA values to compute distance to')
 		}
 		pbStep(pb)
-		x[] <- 0
-		xy <- xyFromCell(out, i)
-		vals <- .Call('raster_distanceToNearestPoint', xy, pts, longlat, 6378137.0, 1/298.257223563, PACKAGE='raster')
+		xy <- xyFromCell(out, which(i))
+		vals <- .Call('_raster_distanceToNearestPoint', xy, pts, longlat, 6378137.0, 1/298.257223563, PACKAGE='raster')
 		pbStep(pb)
-		x[x > width] <- NA
-		x[!is.na(x)] <- 1
+		
+		v[!i] <- 1
+		v[i] <- NA^(vals > width)
+		out <- setValues(out, v)
+	
 		pbStep(pb)
-		out <- setValues(out, x)
 		if (filename != '') {
 			out <- writeRaster(out, filename=filename, ...)
 		}
@@ -155,7 +158,7 @@ function(x, width=0, filename='', doEdge=FALSE, ...) {
 		j <- which(is.na(vals))
 		vals[] <- 0
 		if (length(j) > 0) {
-			vals[j] <- .Call('raster_distanceToNearestPoint', xy[j,,drop=FALSE], pts, longlat, 6378137.0, 1/298.257223563, PACKAGE='raster')
+			vals[j] <- .Call('_raster_distanceToNearestPoint', xy[j,,drop=FALSE], pts, longlat, 6378137.0, 1/298.257223563, PACKAGE='raster')
 		}
 		vals[vals > width] <- NA
 		vals[!is.na(vals)] <- 1

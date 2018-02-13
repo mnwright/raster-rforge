@@ -3,22 +3,6 @@
 # Version 0.9
 # Licence GPL v3
 
-if (!isGeneric("xres")) {
-	setGeneric("xres", function(x)
-		standardGeneric("xres"))
-}
-
-if (!isGeneric("yres")) {
-	setGeneric("yres", function(x)
-		standardGeneric("yres"))
-}
-
-if (!isGeneric("res")) {
-	setGeneric("res", function(x)
-		standardGeneric("res"))
-}
-
-
 setMethod('xres', signature(x='BasicRaster'), 
 function(x) {
 	if (rotated(x)) {
@@ -42,7 +26,7 @@ function(x) {
 setMethod('res', signature(x='BasicRaster'), 
 function(x) {
 	if (rotated(x)) {
-		return(x@rotation@geotrans[c(3,5)])
+		return(x@rotation@geotrans[c(2,6)])
 	} else {
 		e <- x@extent
 		xr <- (e@xmax - e@xmin) / x@ncols 
