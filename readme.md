@@ -3,7 +3,8 @@
 
 NOTE: this project never had a home to go to, it's now clear the raster package will be maintained by the original author. 
 
-See the Issues for a raw list of things to fix in raster. 
+See the Issues for a raw list of things to fix in raster. They do eventually get to the maintainer, or you can email direct. if you have a patch I can commit it if it's not problematic.
+
 
 
 The source of the 'raster' package lives on R-forge
