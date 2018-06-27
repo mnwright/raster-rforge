@@ -163,6 +163,8 @@ setMethod('predict', signature(object='Raster'),
 					}					
 				} else if (is.array(predv)) {
 					predv <- as.matrix(predv)
+				} else if (class(predv)[1] == 'ranger.prediction') {
+				  	predv <- predv$predictions
 				}
 				
 				if (isTRUE(dim(predv)[2] > 1)) {
